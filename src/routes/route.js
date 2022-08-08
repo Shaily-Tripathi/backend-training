@@ -10,31 +10,88 @@ router.get('/test-me', function (req, res) {
     res.send('My second ever api!')
 });
 
-router.get('/students', function (req, res){
-    let students = ['Sabiha', 'Neha', 'Akash']
-    res.send(students)
+
+router.get('/movies', function (req, res){
+    let movies = ['Encanto', 'Fozen', 'Moana','Tangled','Maleficent']
+    res.send(movies)
+})
+router.get('/movies/:indexNumber', function(req, res){
+    let requestParams = req.params
+    let indexNumber = requestParams.indexNumber
+    let movies = ['Encanto', 'Fozen', 'Moana','Tangled','Maleficent']
+    
+        if(indexNumber>=0 && indexNumber<movies.length)
+        {
+            res.send(movies[indexNumber])
+           
+        }
+        else
+        {
+           res.send("Enter valid Value")  
+        }
+})
+//console.log(movieName)
+   
+
+    // console.log("This is the request "+ JSON.stringify(requestParams))
+    
+    // //console.log('Name of the Movie is ', movieName)
+    // let MovieName = movieName
+    
+    // //res.send(studentDetails)
+    // res.send(MovieName)
+router.get('/films', function (req, res){
+    let films = [ {
+        id: 1,
+        name: 'Encanto'
+       }, {
+        id: 2,
+        name: 'Fozen'
+       }, {
+        id: 3,
+        name: 'Moana'
+       }, {
+        id: 4,
+        name: 'Tangled'
+       }]
+       
+    res.send(films)
 })
 
-router.get('/student-details/:name', function(req, res){
-    /*
-    params is an attribute inside request that contains 
-    dynamic values.
-    This value comes from the request url in the form of an 
-    object where key is the variable defined in code 
-    and value is what is sent in the request
-    */
+router.get('/films/:filmId', function (req, res){
+    let films = [ {
+        id: 1,
+        name: 'Encanto'
+       }, {
+        id: 2,
+        name: 'Fozen'
+       }, {
+        id: 3,
+        name: 'Moana'
+       }, {
+        id: 4,
+        name: 'Tangled'
+       }]
+       
 
     let requestParams = req.params
-
-    // JSON strigify function helps to print an entire object
-    // We can use any ways to print an object in Javascript, JSON stringify is one of them
-    console.log("This is the request "+ JSON.stringify(requestParams))
-    let studentName = requestParams.name
-    console.log('Name of the student is ', studentName)
-    //let studentDetails = studentName + " " +studentName
-    
-    //res.send(studentDetails)
-    res.send('Dummy response')
+    let filmId = requestParams.filmId
+        if(filmId>=0 && filmId<films.length)
+        {
+            
+            res.send(films[filmId])
+           
+        }
+        else
+        {
+           res.send(" No movie exists with this id ")  
+        }
+         
 })
+
+    
+//     //res.send(studentDetails)
+//     res.send('Dummy response')
+// })
 
 module.exports = router;
