@@ -32,7 +32,9 @@ router.get('/test-me', function (req, res) {
     let arr6 = [['Name','Ritu'],['Location','Gurgaon'],['Pincode',22445]]
     let result4 = lodash_.fromPairs(arr6)
     console.log("FromPairsgi Example",result4)
-
+    let array3 = ['Sunday','Monday','Tuesday','Wednesday']
+    let result5 = underScore_.first(array3,1)
+    console.log("Underscore Example ",result5)
 
 });
 
