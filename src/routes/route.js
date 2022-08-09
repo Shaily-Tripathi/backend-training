@@ -13,20 +13,43 @@ router.get('/test-me', function (req, res) {
     res.send('My first ever api!')
 });
 
-router.get("/movies/:indexNumber", function(req, res){
-    const movies = ["Rang de basanti", "The shining", "Lord of the rings", "Batman begins"]
-    console.log(req.params.indexNumber)
-    let movieIndex = req.params.indexNumber
-    //check index value. less than 0 or greater than array (length - 1) are not valid
-    if(movieIndex<0 || movieIndex>=movies.length) {
-        //if the index is invalid send an error message
-        return res.send('The index value is not correct, Please check the it')
-    }
-
-    //if the index was valid send the movie at that index in response
-    let requiredMovie = movies[movieIndex]
-    res.send(requiredMovie)
+router.get("/sol1", function(req, res){
+    let arr =[1,2,3,5,6,7]
+    function missingNumber(arr) {
+    let sum =0
+    for(let i=0;i<arr.length;i++)
+        {
+            sum += arr[i]
+        }
+    let n = arr.length+1
+    let sumc = Math.floor((n*(n+1))/2);
+    return sumc-sum
+    
+}
+console.log(missingNumber(arr))
+    res.send('Dummy Response')
 })
+
+router.get("/sol2", function(req, res){
+    let array =[33,34,35,37,38]
+function missingNum(array) {
+    let sum =0
+    for(let i=0;i<array.length;i++)
+        {
+            sum += array[i]
+        }
+    let n = array.length+1
+    let firstNum = array[0]
+    let lastNum = array.pop()
+    let sumc = Math.floor((n*(firstNum+lastNum))/2);
+    return sumc-sum
+    
+}
+console.log(missingNum(array))
+    res.send('Dummy Response')
+})
+
+
 
 router.get("/shoes", function(req, res){
     let queryParams = req.query
