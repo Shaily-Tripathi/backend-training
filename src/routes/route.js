@@ -76,23 +76,7 @@ router.get('/films/:filmId', function (req, res){
        }
     }
     res.send(" No movie exists with this id ")
-
-        // if(filmId>=0 && filmId<films.length)
-        // {
-            
-        //     res.send(films[filmId])
-           
-        // }
-        // else
-        // {
-        //    res.send(" No movie exists with this id ")  
-        // }
          
 })
-
-    
-//     //res.send(studentDetails)
-//     res.send('Dummy response')
-// })
 
 module.exports = router;
