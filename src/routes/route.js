@@ -12,13 +12,13 @@ router.get('/test-me', function (req, res) {
 
 
 router.get('/movies', function (req, res){
-    let movies = ['Encanto', 'Fozen', 'Moana','Tangled','Maleficent']
+    let movies = ['Encanto', 'Frozen', 'Moana','Tangled','Maleficent']
     res.send(movies)
 })
 router.get('/movies/:indexNumber', function(req, res){
     let requestParams = req.params
     let indexNumber = requestParams.indexNumber
-    let movies = ['Encanto', 'Fozen', 'Moana','Tangled','Maleficent']
+    let movies = ['Encanto', 'Frozen', 'Moana','Tangled','Maleficent']
     
         if(indexNumber>=0 && indexNumber<movies.length)
         {
@@ -30,23 +30,14 @@ router.get('/movies/:indexNumber', function(req, res){
            res.send("Enter valid Value")  
         }
 })
-//console.log(movieName)
-   
 
-    // console.log("This is the request "+ JSON.stringify(requestParams))
-    
-    // //console.log('Name of the Movie is ', movieName)
-    // let MovieName = movieName
-    
-    // //res.send(studentDetails)
-    // res.send(MovieName)
 router.get('/films', function (req, res){
     let films = [ {
         id: 1,
         name: 'Encanto'
        }, {
         id: 2,
-        name: 'Fozen'
+        name: 'Frozen'
        }, {
         id: 3,
         name: 'Moana'
@@ -64,7 +55,7 @@ router.get('/films/:filmId', function (req, res){
         name: 'Encanto'
        }, {
         id: 2,
-        name: 'Fozen'
+        name: 'Frozen'
        }, {
         id: 3,
         name: 'Moana'
@@ -76,16 +67,26 @@ router.get('/films/:filmId', function (req, res){
 
     let requestParams = req.params
     let filmId = requestParams.filmId
-        if(filmId>=0 && filmId<films.length)
-        {
+    for(let i=0;i<films.length;i++)
+    {
+       let filmValue = films[i]
+       if(filmValue.id==filmId)
+       {
+        return res.send(filmValue)
+       }
+    }
+    res.send(" No movie exists with this id ")
+
+        // if(filmId>=0 && filmId<films.length)
+        // {
             
-            res.send(films[filmId])
+        //     res.send(films[filmId])
            
-        }
-        else
-        {
-           res.send(" No movie exists with this id ")  
-        }
+        // }
+        // else
+        // {
+        //    res.send(" No movie exists with this id ")  
+        // }
          
 })
 
