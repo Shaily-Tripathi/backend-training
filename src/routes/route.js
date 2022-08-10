@@ -46,7 +46,7 @@ router.post("/test-post", function(req, res) {
 })
 
 
-router.post("/test-post-2", function(req, res) {
+router.post("/test-post-2", function(req, res){
     res.send(  { msg: "hi" , status: true }  )
 })
 
@@ -60,16 +60,12 @@ router.post("/test-post-3", function(req, res) {
 
     res.send(  { msg: "hi" , status: true }  )
 })
-
-
-
 router.post("/test-post-4", function(req, res) {
     let arr= [ 12, "functionup"]
     let ele= req.body.element
     arr.push(ele)
     res.send(  { msg: arr , status: true }  )
 })
-
 let players = [
     {
         "name": "manish",
