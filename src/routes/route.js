@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// const UserModel= require("../models/userModel.js")
 const UserController= require("../controllers/userController")
 const BookController= require("../controllers/bookController")
 
@@ -14,6 +13,15 @@ router.get("/getUsersData", UserController.getUsersData)
 
 router.post("/createBook", BookController.createBook  )
 
-router.get("/getBooksData", BookController.getBooksData)
+router.get("/bookList", BookController.bookList)
+
+router.post("/getBooksInYear", BookController.bookByYear)
+
+router.get("/getXINRBooks", BookController.getINRBook)
+
+router.get("/getRandomBooks", BookController.randomBook)
+
+router.post("/getParticularBooks", BookController.particularBook)
+
 
 module.exports = router;
