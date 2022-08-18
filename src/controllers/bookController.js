@@ -22,7 +22,7 @@ const findAuthor= async function (req, res) {
         { name: "Two States"} , 
         { $set: {price:100}},
         { new: true } 
-     )//.select({price:1,author_id:1,_id:0})
+     ).select({price:1,author_id:1,_id:0})
      let price = giveAuthor.price
      let authorId = giveAuthor.author_id
      let authorName =await AuthorModel.findOne({author_id:authorId}).select({author_name:1,_id:0})
