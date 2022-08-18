@@ -22,7 +22,7 @@ const findAuthor= async function (req, res) {
         { name: "Two States"} , 
         { $set: {price:100}},
         { new: true } 
-     ).select({price:1,author_id:1,_id:0})
+     )//.select({price:1,author_id:1,_id:0})
      let price = giveAuthor.price
      let authorId = giveAuthor.author_id
      let authorName =await AuthorModel.findOne({author_id:authorId}).select({author_name:1,_id:0})
@@ -38,14 +38,18 @@ const findAuthor= async function (req, res) {
 
 const bookInRange= async function (req, res) { 
     let allBooks= await BookModel.find( { price : { $gte: 50, $lte: 100} } ).select({ author_id :1,_id:0})
-    let arr = []
-    for(let i=0;i<allBooks.length;i++)
-    {
-    let allBookId = allBooks[i].author_id
-    let finalResult = await AuthorModel.find({author_id : allBookId }).select({author_name:1,_id:0});
-    arr.push(finalResult)
-    }  
-res.send( { msg:arr})   
+    let a_id = allBooks.map(x=>x.author_id)
+    let findBook = await AuthorModel.find({author_id: a_id}).select({author_name: 1, _id: 0})
+    res.send(findBook)
+//     let allBooks= await BookModel.find( { price : { $gte: 50, $lte: 100} } ).select({ author_id :1,_id:0})
+//     let arr = []
+//     for(let i=0;i<allBooks.length;i++)
+//     {
+//     let allBookId = allBooks[i].author_id
+//     let finalResult = await AuthorModel.find({author_id : allBookId }).select({author_name:1,_id:0});
+//     arr.push(finalResult)
+//     }  
+// res.send( { msg:arr})   
 }
 module.exports.createBook= createBook
 module.exports.getBookList= getBookList
