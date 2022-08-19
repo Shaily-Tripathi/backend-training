@@ -13,7 +13,7 @@ router.post("/createAuthorBook", authorController.createAuthor  )
 
 router.post("/createLibraryBook", bookController.createBook  )
 
-router.post("/createPublisher", publisherController.createBook  )
+router.post("/createPublisher", publisherController.createPublisher)
 
 router.get("/getAuthorsData", authorController.getAuthorsData)
 
@@ -21,6 +21,6 @@ router.get("/getAuthorsData", authorController.getAuthorsData)
 
 router.get("/getBooksData", bookController.getBooksData)
 
-router.get("/getBooksWithAuthorDetails", bookController.getBooksWithAuthorDetails)
+router.get("/getAllBooks", bookController.getAllBooks)
 
 module.exports = router;
