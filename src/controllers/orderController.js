@@ -77,3 +77,49 @@
 // module.exports.updateBooks = updateBooks
 // module.exports.deleteBooks = deleteBooks
 // module.exports.totalSalesPerAuthor = totalSalesPerAuthor
+const orderModel = require("../models/orderModel")
+const userModel = require("../models/userModel")
+const productModel = require("../models/productModel")
+
+const createOrder= async function (req, res) {
+    let data = req.body
+    let userID = data.userId
+    let productID = data.productId
+    let checkIdOfUser = await userModel.findById(userID)
+    let checkIdOfProduct = await productModel.findById(productID)
+    if(!userID)
+    {
+        return res.send({status: false,msg: "User ID must be present"})
+    }
+    if(!productID)
+    {
+        return res.send({status: false,msg: "Product ID must be present"})
+    }
+    if(!checkIdOfUser)
+    {
+           
+        return res.send({status: false, msg: "User ID is not valid"})
+    }
+    if(!checkIdOfProduct)
+    {
+           
+        return res.send({status: false, msg: "Product ID is not valid"})
+    }
+
+    let valHeader = req.headers["isfreeappuser"]
+    if(valHeader==true)
+    {
+        
+    }
+    else
+    {
+            
+    }
+   
+    let savedData= await orderModel.create(data)
+    res.send({data: savedData})
+
+    
+}
+
+module.exports.createOrder= createOrder

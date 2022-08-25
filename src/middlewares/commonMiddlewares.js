@@ -1,4 +1,13 @@
+const headerCheck = function(req, res, next){
+    let valHeader = req.headers["isfreeappuser"]
+    if(!valHeader)
+    {
+        return res.send({msg:" The request is missing a mandatory header"})
+    }
+    next()
+}
 
+module.exports.headerCheck= headerCheck
 // const mid1= function ( req, res, next) {
 //     req.falana= "hi there. i am adding something new to the req object"
 //     console.log("Hi I am a middleware named Mid1")
