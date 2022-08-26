@@ -1,82 +1,4 @@
-// const { count } = require("console")
-// const BookModel = require("../models/orderModel")
-
-// const createBook= async function (req, res) {
-//     let data= req.body
-
-//     let savedData= await BookModel.create(data)
-//     res.send({msg: savedData})
-// }
-
-
-
-
-
-
-// const getBooksData = async function (req, res) {
-//     let allBooks = await BookModel.find({ authorName: "HO" })
-//     console.log(allBooks)
-//     if (allBooks.length > 0) res.send({ msg: allBooks, condition: true })
-//     else res.send({ msg: "No books found", condition: false })
-// }
-
-
-// const updateBooks = async function (req, res) {
-//     let data = req.body // {sales: "1200"}
-//     // let allBooks= await BookModel.updateMany( 
-//     //     { author: "SK"} , //condition
-//     //     { $set: data } //update in data
-//     //  )
-//     let allBooks = await BookModel.findOneAndUpdate(
-//         { authorName: "ABC" }, //condition
-//         { $set: data }, //update in data
-//         { new: true, upsert: true } ,// new: true - will give you back the updated document // Upsert: it finds and updates the document but if the doc is not found(i.e it does not exist) then it creates a new document i.e UPdate Or inSERT
-//     )
-
-//     res.send({ msg: allBooks })
-// }
-
-// const deleteBooks = async function (req, res) {
-//     // let data = req.body 
-//     let allBooks = await BookModel.updateMany(
-//         { authorName: "FI" }, //condition
-//         { $set: { isDeleted: true } }, //update in data
-//         { new: true } ,
-//     )
-
-//     res.send({ msg: allBooks })
-// }
-
-
-
-// const totalSalesPerAuthor = async function (req, res) {
-//     // let data = req.body 
-//     let allAuthorSales = await BookModel.aggregate(
-//         [
-//             { $group: { _id: "$authorName", totalNumberOfSales: { $sum: "$sales" } } },
-//             { $sort: { totalNumberOfSales: -1 } }
-//         ]
-//     )
-
-//     res.send({ msg: allAuthorSales })
-// }
-
-
-
-
-// // CRUD OPERATIONS:
-// // CREATE
-// // READ
-// // UPDATE
-// // DELETE
-
-
-
-// module.exports.createBook = createBook
-// module.exports.getBooksData = getBooksData
-// module.exports.updateBooks = updateBooks
-// module.exports.deleteBooks = deleteBooks
-// module.exports.totalSalesPerAuthor = totalSalesPerAuthor
+const moment = require('moment');
 const orderModel = require("../models/orderModel")
 const userModel = require("../models/userModel")
 const productModel = require("../models/productModel")
@@ -87,6 +9,7 @@ const createOrder= async function (req, res) {
     let productID = data.productId
     let checkIdOfUser = await userModel.findById(userID)
     let checkIdOfProduct = await productModel.findById(productID)
+    
     if(!userID)
     {
         return res.send({status: false,msg: "User ID must be present"})
@@ -107,18 +30,41 @@ const createOrder= async function (req, res) {
     }
 
     let valHeader = req.headers["isfreeappuser"]
-    if(valHeader==true)
+    if(valHeader==="false"){
+    //User Balance
+    let userB = await userModel.findById(userID)
+    let userBalance = userB["balance"]
+    //Product Price
+    let productP = await productModel.findById(productID)
+    let productPrice = productP.price
+
+    if(userBalance >= productPrice)
     {
-        
+            let usersNewBalance = userBalance - productPrice
+            await userModel.findOneAndUpdate(
+                {_id : userID},
+                {$set : {balance : usersNewBalance}}
+            );
+            let todayDate = moment().format('YYYY-MM-DD')
+            data['amount']=productPrice;
+            data['date']=todayDate;
+            let savedData=await orderModel.create(data);
+            res.send({OrderPlaced : savedData});
     }
     else
     {
-            
+            return res.send({"msg":"Users balance is not enough, cannot make the order"})
     }
-   
-    let savedData= await orderModel.create(data)
-    res.send({data: savedData})
-
+    } 
+    else if(valHeader=="true")
+    {
+        let todayDate = moment().format('YYYY-MM-DD')
+        data['amount']=0;
+        data['date']=todayDate;
+        let savedData=await orderModel.create(data);
+        res.send({OrderPlaced : savedData});
+    
+    }
     
 }
 
