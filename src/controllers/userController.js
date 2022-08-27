@@ -34,7 +34,7 @@ const loginUser = async function (req, res) {
   let token = jwt.sign(
     {
       userId: user._id.toString(),
-      batch: "thorium",
+      batch: "plutonium",
       organisation: "FunctionUp",
     },
     "functionup-plutonium-very-very-secret-key"
@@ -44,8 +44,10 @@ const loginUser = async function (req, res) {
 };
 
 const getUserData = async function (req, res) {
-  let token = req.headers["x-Auth-token"];
-  if (!token) token = req.headers["x-auth-token"];
+ // let token = req.headers["x-Auth-token"];
+
+  let token = req.headers["x-auth-token"];
+//   if (!token) token = req.headers["x-auth-token"];
 
   //If no token is present in the request header return error. This means the user is not logged in.
   if (!token) return res.send({ status: false, msg: "token must be present" });
@@ -62,6 +64,7 @@ const getUserData = async function (req, res) {
   // A token can only be decoded successfully if the same secret was used to create(sign) that token.
   // And because this token is only known to the server, it can be assumed that if a token is decoded at server then this token must have been issued by the same server in past.
   let decodedToken = jwt.verify(token, "functionup-plutonium-very-very-secret-key");
+  console.log(decodedToken)
   if (!decodedToken)
     return res.send({ status: false, msg: "token is invalid" });
 
@@ -87,9 +90,9 @@ const updateUser = async function (req, res) {
     return res.send("No such user exists");
   }
 
-  let userData = req.body;
-  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData);
-  res.send({ status: updatedUser, data: updatedUser });
+  //let userData = req.body;
+  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, req.body);
+  res.send({ status: "updatedUser", data: updatedUser });
 };
 
 module.exports.createUser = createUser;
