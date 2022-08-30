@@ -75,7 +75,7 @@ const updateUser = async function (req, res) {
     let userId = req.params.userId;
     let user = await userModel.findById(userId);
     if (!user) {
-      return res.status(404).send("No such user exists");
+      return res.status(404).send({status: false, msg: "No such user exists"});
     }
     let updateData = req.body;
     let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, updateData, { new: true });
@@ -93,7 +93,7 @@ const markUser = async function (req, res) {
     let userId = req.params.userId;
     let user = await userModel.findById(userId);
     if (!user) {
-      return res.status(404).send("No such user exists");
+      return res.status(404).send({status: false, msg: "No such user exists"});
     }
     let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, { $set: { isDeleted: true } }, { new: true });
     res.status(200).send({ status: "true", data: updatedUser });
