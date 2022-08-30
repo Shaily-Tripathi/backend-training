@@ -17,4 +17,4 @@ const userSchema = new mongoose.Schema( {
     age: Number,
 }, { timestamps: true });
 
-module.exports = mongoose.model('UserJwt', userSchema)
+module.exports = mongoose.model('UserJwt', userSchema) //userjwts

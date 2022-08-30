@@ -29,7 +29,7 @@ const loginUser = async function (req, res) {
       month: "August",
       website: "Fackebook",
     },
-    "This is a secret information"
+    "This is a secret information",
   );
   res.send({ status: true, token: token });
 };
